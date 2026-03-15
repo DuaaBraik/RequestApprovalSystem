@@ -9,8 +9,6 @@ using ApprovalSystem.Interfaces;
 using System.Security.Cryptography.X509Certificates;
 
 using Microsoft.Identity.Client;
-using System.Net.Http.Headers;
-using System;
 
 namespace ApprovalSystem.Services;
 
@@ -22,7 +20,7 @@ public class SharePointService : ISharePointService
     public SharePointService(IConfiguration configuration)
     {
         _spConfig = configuration.GetSection("SharePoint").Get<SharePointConfig>();
-        certificatePath = Path.Combine(Directory.GetCurrentDirectory(), "Certificates", _spConfig?.CertificateFileName);
+        certificatePath = Path.Combine(AppContext.BaseDirectory, "App_Data", _spConfig?.CertificateFileName);
     }
 
     public async Task<string> AddItemToRequestsList(RequestDto request)
@@ -33,7 +31,7 @@ public class SharePointService : ISharePointService
 
         var json = JsonSerializer.Serialize(sharePointRequest);
 
-        var certificate = new X509Certificate2(certificatePath, _spConfig?.CertificatePassword);
+        var certificate = new X509Certificate2(certificatePath, _spConfig?.CertificatePassword, X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet);
 
         var app = ConfidentialClientApplicationBuilder.Create(_spConfig?.ClientId)
             .WithCertificate(certificate)
