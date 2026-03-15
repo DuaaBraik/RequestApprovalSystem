@@ -2,33 +2,38 @@ using ApprovalSystem.Dtos;
 using ApprovalSystem.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApprovalSystem.Controllers
+namespace ApprovalSystem.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class RequestsController : ControllerBase
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class RequestsController : ControllerBase
+    private readonly ILogger<RequestsController> _logger;
+    private ISharePointService _sharePointService;
+
+    public RequestsController(ILogger<RequestsController> logger, ISharePointService sharePointService)
     {
-        private readonly ILogger<RequestsController> _logger;
-        private ISharePointService _sharePointService;
+        _logger = logger;
+        _sharePointService = sharePointService;
+    }
 
-        public RequestsController(ILogger<RequestsController> logger, ISharePointService sharePointService)
+    [HttpPost]
+    public async Task<ActionResult> AddRequest(RequestDto requestDto)
+    {
+        try
         {
-            _logger = logger;
-            _sharePointService = sharePointService;
+            await _sharePointService.AddItemToRequestsList(requestDto);
+            return Ok();
         }
+        catch(Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
 
-        [HttpPost]
-        public async Task<ActionResult> AddRequest(RequestDto requestDto)
-        {
-            try
-            {
-                await _sharePointService.AddItemToRequestsList(requestDto);
-                return Ok();
-            }
-            catch(Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
+    [HttpPost("status/{requestId}")]
+    public ActionResult GetRequests(string requestId, RequestStatusDto requestStatus)
+    {
+        return Ok(new { requestId, requestStatus });
     }
 }
