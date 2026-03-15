@@ -1,3 +1,7 @@
 */obj
 */bin
 .vs
+/ApprovalSystem/Properties/PublishProfiles
+/ApprovalSystem/ApprovalSystem.csproj.user
+/ApprovalSystem/.config
+/ApprovalSystem/ApprovalSystem.csproj.user
