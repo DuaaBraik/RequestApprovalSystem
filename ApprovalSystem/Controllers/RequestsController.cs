@@ -17,6 +17,13 @@ public class RequestsController : ControllerBase
         _sharePointService = sharePointService;
     }
 
+    /// <summary>
+    /// Creates a new approval request
+    /// </summary>
+    /// <param name="requestDto">The request object</param>
+    /// <returns>The created request ID</returns>
+    /// <response code="200">Request created successfully</response>
+    /// <response code="400">Invalid request data</response>
     [HttpPost]
     public async Task<ActionResult> AddRequest(RequestDto requestDto)
     {
@@ -31,6 +38,11 @@ public class RequestsController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Update the final status of specified request
+    /// </summary>
+    /// <param name="requestId">The request ID</param>
+    /// <param name="requestStatus">The request details object</param>
     [HttpPost("{requestId}/status")]
     public ActionResult GetRequests(string requestId, RequestStatusDto requestStatus)
     {
