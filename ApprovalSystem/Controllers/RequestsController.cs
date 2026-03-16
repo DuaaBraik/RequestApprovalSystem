@@ -31,7 +31,7 @@ public class RequestsController : ControllerBase
         }
     }
 
-    [HttpPost("status/{requestId}")]
+    [HttpPost("{requestId}/status")]
     public ActionResult GetRequests(string requestId, RequestStatusDto requestStatus)
     {
         return Ok(new { requestId, requestStatus });
