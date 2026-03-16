@@ -23,7 +23,7 @@ public class SharePointService : ISharePointService
         certificatePath = Path.Combine(AppContext.BaseDirectory, "App_Data", _spConfig?.CertificateFileName);
     }
 
-    public async Task<string> AddItemToRequestsList(RequestDto request)
+    public async Task<string?> AddItemToRequestsList(RequestDto request)
     {
         var sharePointRequest = request.Adapt<SharePointRequestModel>();
 
@@ -49,9 +49,9 @@ public class SharePointService : ISharePointService
 
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-        await httpClient.PostAsync(url, content);
+        var response = await httpClient.PostAsync(url, content);
 
-        return sharePointRequest.RequestId;
+        return response.IsSuccessStatusCode ? sharePointRequest.RequestId : null;
     }
 }
 

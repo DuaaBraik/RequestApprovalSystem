@@ -22,8 +22,8 @@ public class RequestsController : ControllerBase
     {
         try
         {
-            await _sharePointService.AddItemToRequestsList(requestDto);
-            return Ok();
+            var requestsId = await _sharePointService.AddItemToRequestsList(requestDto);
+            return requestsId is null ? BadRequest(new { message = "Failed to create request" }) : Ok(new { requestsId, message = "success" });
         }
         catch(Exception ex)
         {
