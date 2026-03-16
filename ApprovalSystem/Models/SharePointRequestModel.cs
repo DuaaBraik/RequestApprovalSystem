@@ -20,12 +20,6 @@ namespace ApprovalSystem.Models
 
         public decimal Amount { get; set; }
 
-        [JsonPropertyName("FirstApprover")]
-        public string FirstApproverEmail { get; set; }
-
-        [JsonPropertyName("SecondApprover")]
-        public string SecondApproverEmail { get; set; }
-
         public string Status { get; set; } = "Pending";
     }
 }

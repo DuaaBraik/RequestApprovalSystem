@@ -15,9 +15,5 @@
         public DateTime EndDate { get; set; }
 
         public decimal Amount { get; set; }
-
-        public string FirstApproverEmail { get; set; }
-
-        public string SecondApproverEmail { get; set; }
     }
 }
